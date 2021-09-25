@@ -9,11 +9,21 @@ const int MAX_ITEMS = 5;
 
 class FullStack
 	// Exception class thrown by Push when stack is full.
-{};
+{
+public:
+    string Msg() {
+        return "Stack is full.";
+    }
+};
 
 class EmptyStack
 	// Exception class thrown by Pop and Top when stack is emtpy.
-{};
+{
+public:
+    string Msg(){
+        return "Stack is empty.";
+    }
+};
 
 
 template <class T>
@@ -35,12 +45,12 @@ public:
 	// Post: Function value = (stack is empty)
 	void Push(T item);
 	// Function: Adds newItem to the top of the stack.
-	// Pre:  Stack has been initialized.
+	// Pre:  Stack has been initialized, and is not full.
 	// Post: If (stack is full), FullStack exception is thrown;
 	//     otherwise, newItem is at the top of the stack.
 	void Pop();
 	// Function: Removes top item from the stack.
-	// Pre:  Stack has been initialized.
+	// Pre:  Stack has been initialized, and is not empty.
 	// Post: If (stack is empty), EmptyStack exception is thrown;
 	//     otherwise, top element has been removed from stack.
 	T Top();
