@@ -9,8 +9,78 @@ StackType<T>::StackType()	// Class constructor.
 }
 
 template<class T>
+StackType<T>::StackType(const StackType<T> &otherStack) {
+
+
+    // Empty case
+    if(otherStack.IsEmpty()) {
+        this->topPtr = nullptr;
+        return;
+    }
+
+    // Create the top
+    this->topPtr = new NodeType;
+    this->topPtr->next = nullptr;
+    this->topPtr->info = otherStack.topPtr->info;
+
+    NodeType* ptr1 = otherStack.topPtr->next;
+    NodeType* ptr2 = this->topPtr;
+
+    while(ptr1 != nullptr) {
+
+        // Copy contents of ptr1
+        ptr2->next = new NodeType;
+        ptr2->next->info = ptr1->info;
+
+
+
+        ptr1 = ptr2->next;
+        ptr2 = ptr2->next;
+    }
+    ptr2->next = nullptr; // after everything has run, account for the end of
+    // otherStack
+}
+
+
+template<class T>
+void StackType<T>::operator=(const StackType<T> &otherStack) {
+
+    // Empty case
+    if(otherStack.IsEmpty()) {
+        this->topPtr = nullptr;
+        return;
+    }
+
+    // Create the top
+    this->topPtr = new NodeType;
+    this->topPtr->next = nullptr;
+    this->topPtr->info = otherStack.topPtr->info;
+
+    NodeType* ptr1 = otherStack.topPtr->next;
+    NodeType* ptr2 = this->topPtr;
+
+    while(ptr1 != nullptr) {
+
+        // Copy contents of ptr1
+        ptr2->next = new NodeType;
+        ptr2->next->info = ptr1->info;
+
+
+
+        ptr1 = ptr2->next;
+        ptr2 = ptr2->next;
+    }
+    ptr2->next = nullptr; // after everything has run, account for the end of
+    // otherStack
+}
+
+
+template<class T>
 StackType<T>::~StackType() {
-    while (!IsEmpty()){
+    while (topPtr != nullptr) {
+        NodeType* temp = topPtr;
+        topPtr = topPtr->next;
+        delete temp;
 
     }
 }
@@ -36,14 +106,21 @@ bool StackType<T>::IsEmpty() const {
 
 template<class T>
 void StackType<T>::Push(T item) {
-    if ( IsFull() )
-        throw "List is full";
-    else{
-        NodeType* current;
-        current = new NodeType;
-        current->info = item;
-        topPtr = current;
+    if ( IsFull()){
+        throw FullStack();
     }
+    if ( IsEmpty()) {
+        topPtr = new NodeType;
+        topPtr->next = nullptr;
+        topPtr->info = item;
+        return;
+    }
+
+    NodeType* newTop = new NodeType;
+    newTop->next = topPtr;
+    newTop->info = item;
+    topPtr = newTop;
+
 
 
 
@@ -54,19 +131,17 @@ void StackType<T>::Pop() {
     if ( IsEmpty() ){
         throw EmptyStack();
     }
-    else{
-        NodeType* tempPtr;
-        tempPtr = topPtr;
-        topPtr = topPtr->next;
-        delete tempPtr;
-    }
+
+    NodeType* tempPtr;
+    tempPtr = topPtr;
+    topPtr = topPtr->next;
+    delete tempPtr;
+
 }
 
 template<class T>
 T StackType<T>::Top() {
     // returns a copy of the top item in the stack
-    if ( IsEmpty() )
-        throw EmptyStack();
-    else
         return topPtr->info;
 }
+

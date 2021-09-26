@@ -33,6 +33,19 @@ public:
 
 	StackType();
 	// Class constructor.
+
+	// Copying stuff from otherStack into "this"
+	StackType(const StackType<T>& otherStack);
+
+	// ASsignment operator
+	void operator=(const StackType<T>& otherStack);
+
+
+	// Define <
+	//bool operator<(const StackType<T>& otherStack);
+
+	// Define +
+	//StackType<T> operator+(const StackType<T>& otherStack);
 	~StackType();
 	// Class de-constructor.
 	bool IsFull() const;

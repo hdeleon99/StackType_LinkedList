@@ -6,6 +6,7 @@
 #include <cstring>
 
 #include "StackType.h"
+#include "StackType.cpp"
 
 using namespace std;
 
@@ -20,6 +21,7 @@ int main()
   
   char item;
   StackType<char> stack;
+
   int numCommands;
 
 
